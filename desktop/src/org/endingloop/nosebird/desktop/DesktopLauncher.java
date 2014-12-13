@@ -7,6 +7,9 @@ import org.endingloop.nosebird.NBGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new NBGame(), config);
+        config.title = "Noise Bird";
+        config.width = 272;
+        config.height = 408;
+        new LwjglApplication(new NBGame(), config);
 	}
 }
