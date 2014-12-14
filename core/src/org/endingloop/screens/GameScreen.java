@@ -3,8 +3,10 @@ package org.endingloop.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+
 import org.endingloop.gameworld.GameRenderer;
 import org.endingloop.gameworld.GameWorld;
+import org.endingloop.nbhelpers.InputHandler;
 
 public class GameScreen implements Screen {
 	
@@ -12,10 +14,19 @@ public class GameScreen implements Screen {
 	private GameRenderer renderer;
 	
 	public GameScreen() {
-        Gdx.app.log("GameScreen", "Attached");
+		
+		float screenWidth = Gdx.graphics.getWidth();
+	    float screenHeight = Gdx.graphics.getHeight();
+	    float gameWidth = 136;
+	    float gameHeight = screenHeight / (screenWidth / gameWidth);
+	
+	    int midPointY = (int) (gameHeight / 2);
+		
         //initialize world and renderer
-        world=new GameWorld();
+        world=new GameWorld(midPointY);
         renderer=new GameRenderer(world);
+        
+        Gdx.input.setInputProcessor(new InputHandler(world.getNose()));
     }
 
     @Override
