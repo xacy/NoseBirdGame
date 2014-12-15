@@ -1,5 +1,8 @@
 package org.endingloop.gameobjects;
 
+import org.endingloop.gameworld.GameWorld;
+import org.endingloop.nbhelpers.AssetLoader;
+
 public class ScrollHandler {
 	// ScrollHandler will create all five objects that we need.
     private Grass frontGrass, backGrass;
@@ -12,10 +15,14 @@ public class ScrollHandler {
     // Capital letters are used by convention when naming constants.
     public static final int SCROLL_SPEED = -59;
     public static final int PIPE_GAP = 49;
+    
+    private GameWorld gameWorld;
 
     // Constructor receives a float that tells us where we need to create our
     // Grass and Pipe objects.
-    public ScrollHandler(float yPos) {
+    public ScrollHandler(GameWorld gameWorld,float yPos) {
+    	this.gameWorld = gameWorld;
+    	
     	frontGrass = new Grass(0, yPos, 143, 11, SCROLL_SPEED);
         backGrass = new Grass(frontGrass.getTailX(), yPos, 143, 11,
                 SCROLL_SPEED);
@@ -63,7 +70,34 @@ public class ScrollHandler {
 
     // Return true if ANY pipe hits the bird.
     public boolean collides(Nose nose) {
-       return (pipe1.collides(nose) || pipe2.collides(nose) || pipe3.collides(nose));
+    	if (!pipe1.isScored()
+                && pipe1.getX() + (pipe1.getWidth() / 2) < nose.getX()
+                        + nose.getWidth()) {
+            addScore(1);
+            pipe1.setScored(true);
+            AssetLoader.coin.play();
+        } else if (!pipe2.isScored()
+                && pipe2.getX() + (pipe2.getWidth() / 2) < nose.getX()
+                        + nose.getWidth()) {
+            addScore(1);
+            pipe2.setScored(true);
+            AssetLoader.coin.play();
+
+        } else if (!pipe3.isScored()
+                && pipe3.getX() + (pipe3.getWidth() / 2) < nose.getX()
+                        + nose.getWidth()) {
+            addScore(1);
+            pipe3.setScored(true);
+            AssetLoader.coin.play();
+
+        }
+
+        return (pipe1.collides(nose) || pipe2.collides(nose) || pipe3
+                .collides(nose));
+    }
+    
+    private void addScore(int increment) {
+        gameWorld.addScore(increment);
     }
 
     // The getters for our five instance variables

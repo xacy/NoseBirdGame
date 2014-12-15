@@ -108,6 +108,14 @@ public class GameRenderer {
 	                    nose.getHeight() / 2.0f, nose.getWidth(), nose.getHeight(),
 	                    1, 1, nose.getRotation());
 	        }
+	        
+	        // 	Convert integer into String
+	        String score = myWorld.getScore() + "";
+
+	        // Draw shadow first
+	        AssetLoader.shadow.draw(batcher, "" + myWorld.getScore(), (136 / 2) - (3 * score.length()), 12);
+	        // Draw text
+	        AssetLoader.font.draw(batcher, "" + myWorld.getScore(), (136 / 2) - (3 * score.length() - 1), 11);
 
 	        batcher.end();
 
