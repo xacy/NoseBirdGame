@@ -26,16 +26,15 @@ public class GameScreen implements Screen {
 		
         //initialize world and renderer
         world=new GameWorld(midPointY);
+        Gdx.input.setInputProcessor(new InputHandler(world, screenWidth / gameWidth, screenHeight / gameHeight));
         renderer=new GameRenderer(world,(int)gameHeight,midPointY);
-        
-        Gdx.input.setInputProcessor(new InputHandler(world.getNose()));
     }
 
     @Override
     public void render(float delta) {
     	runTime += delta;
     	world.update(delta); // GameWorld updates 
-    	renderer.render(runTime); // GameRenderer renders
+    	renderer.render(delta,runTime); // GameRenderer renders
     }
 
     @Override

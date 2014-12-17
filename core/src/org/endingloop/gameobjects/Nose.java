@@ -13,6 +13,7 @@ public class Nose {
 	private float rotation; // For handling bird rotation
 	private int width;
 	private int height;
+	private float originalY;
 	
 	private Circle boundingCircle;
 	
@@ -21,6 +22,7 @@ public class Nose {
 	public Nose(float x, float y, int width, int height) {
 	        this.width = width;
 	        this.height = height;
+	        this.originalY = y;
 	        position = new Vector2(x, y);
 	        velocity = new Vector2(0, 0);
 	        acceleration = new Vector2(0, 460);
@@ -34,7 +36,12 @@ public class Nose {
         if (velocity.y > 200) {
             velocity.y = 200;
         }
-
+        // CEILING CHECK 
+        if (position.y < -13) {
+            position.y = -13;
+            velocity.y = 0;
+        }
+        
         position.add(velocity.cpy().scl(delta));
      // Set the circle's center to be (9, 6) with respect to the bird.
         // Set the circle's radius to be 6.5f;
@@ -58,6 +65,20 @@ public class Nose {
 
         }
 
+    }
+	
+	public void updateReady(float runTime) {
+        position.y = 2 * (float) Math.sin(7 * runTime) + originalY;
+    }
+	
+	public void onRestart(int y) {
+        rotation = 0;
+        position.y = y;
+        velocity.x = 0;
+        velocity.y = 0;
+        acceleration.x = 0;
+        acceleration.y = 460;
+        isAlive = true;
     }
 	
 	public boolean isFalling() {
